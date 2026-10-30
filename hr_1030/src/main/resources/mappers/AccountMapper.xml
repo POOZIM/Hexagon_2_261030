@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexagon.springmvc.mapper.AccountMapper">
+
+	<!-- account 테이블의 emp_id 컬럼과 Account 도메인 객체의 emp멤버변수와 불일치 문제 자동 먀핑으로 해결이 
+		안되므로 개발자가 나서야함 즉 resultMap으로 해결 -->
+	<resultMap type="Account" id="joinMap">
+		<id column="account_id" property="accountId" />
+			<result column="login_id" property="loginId" />
+			<result column="password" property="password" />
+			<result column="createdAt" property="createdAt" />
+			<result column="last_login_at" property="lastLoginAt" />
+		
+		<!-- 부모님 정보 가져오기 1:1 대응되는 테이블간 조인 -->
+		<association column="emp_id" property="emp" javaType="Emp" select="com.hexagon.springmvc.mapper.EmpMapper.select" />
+		
+		<!-- 이 계정이 보유한 다수의 권한 가져오기, 이 계정이 여러 권한을 보유하므로, collection으로 가져오기 -->
+		<collection column="account_id" property="roles" javaType="java.util.List" ofType="HrRole"
+		select="com.hexagon.springmvc.mapper.HrRoleMapper.selectByAccountId"/>
+	</resultMap>
+
+	<!-- login_id 가 일치하는 회원 가져오기 -->
+	<select id="selectById" parameterType="String"
+		resultMap="joinMap">
+		select account_id, emp_id, login_id, password, enabled, created_at,
+		last_login_at
+		from account
+		where login_id=#{loginId}
+	</select>
+
+</mapper>

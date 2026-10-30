@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexagon.springmvc.mapper.EmpMapper">
+
+	<!-- join 문을 써도 되지만 mtbatis 의 join을 대신한 association, collection을 써도 됨! Emp의 
+		멤버 변수에는 부서(Department), 직급(Job), 직책(HrPosition) java 의 도메인 객체가 보유한 멤버변수가 
+		컬럼명과 일치하지 않으면 자동 매핑이 되지 않으므로, 개발자가 직접 수동 매핑을 시도해야 함 따라서 resultMap으로 수동매핑 -->
+	<resultMap type="Emp" id="joinMap">
+		<id column="emp_id" property="empId" />
+		<result column="ename" property="ename" />
+		<result column="email" property="email" />
+		<result column="phone" property="phone" />
+		<result column="hiredate" property="hiredate" />
+		<result column="status" property="status" />
+		<result column="annual_leave_days" property="annualLeaveDays" />
+
+		<!-- 이 사원이 소속된 부서 가져오기 한 명의 사원은 하나의 부서를 가져오므로 1:1 관계임 따라서 association으로 -->
+		<association column="department_id" property="department"
+			javaType="Department"
+			select="com.hexagon.springmvc.mapper.DepartmentMapper.select" />
+
+		<!-- 직급 가져오기 -->
+		<association column="job_id" property="job" javaType="Job"
+			select="com.hexagon.springmvc.mapper.JobMapper.select" />
+
+		<!-- 직책 가져오기 -->
+		<association column="hr_position_id" property="hrPosition"
+			javaType="hrPosition"
+			select="com.hexagon.springmvc.mapper.HrPositionMapper.select" />
+		
+	</resultMap>
+
+	<select id="select" parameterType="int" resultMap="joinMap">
+		select emp_id ,ename ,email ,phone ,hiredate , department_id , job_id
+		,hr_position_id , status , annual_leave_days
+		from emp
+		where emp_id=#{empId}
+	</select>
+
+</mapper>
+

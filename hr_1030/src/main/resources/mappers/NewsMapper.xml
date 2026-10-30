@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mappers.NewsMapper">
+
+	<!-- 뉴스 기사 등록 -->
+	<insert id="insert" parameterType="News">
+		insert into news(news_id, title, writer, content, subcategory_id)
+		values(seq_news.nextval, #{title}, #{writer}, #{content}, #{subCategory.subcategoryId})
+	</insert>
+
+</mapper>

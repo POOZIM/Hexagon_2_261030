@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hexagon.springmvc.mapper.AdminMapper">
+
+	<!--
+			 id 조건에 맞는 사용자를 무조건 추출한 후 비밀번호 비교는 스프링 시큐리티의 PasswordEncoder 가 해줌
+			따라서 비밀번호를 조건에서 제외시켜야 함		
+	 -->
+	<select id="selectById" parameterType="String" resultType="Admin">
+		select admin_id, login_id, password, name
+		from admin
+		where login_id=#{loginId}
+	</select>
+
+</mapper>

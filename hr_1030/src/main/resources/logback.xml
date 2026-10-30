@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<!--  로그를 남길 대상을 우리는 콘솔로 정한다 -->
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+	
+		<!-- 어떤 형식으로 출력할지를 결정 -->
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>			
+		</encoder>
+	</appender>	
+	
+	<!-- 
+		[ 특정 패키지를 대상으로 어떤 수준의 로그 레벨을 이용할지 설정 ]
+		 
+		1) 로그를 사용하는 이유?
+			- System.out.print()은 로그에 대한 자세한 내용이 누락(언제, 어디서,..) - 체계적이지 못함
+			- 개발시엔 활성화, 개발 끝난 후엔 다시 주석막아야 함..(파일수가 많을 경우 관리불가)	
+		
+		2) 로그 레벨을 설정 가능 
+			로그레벨의 수준(심각도에 따른 순위) : TRACE < DEBUG < INFO < WARN < ERROR
+			TRACE - 코드의 모든 흐름을 낱낱이 추적할때 (메서드 진입, 메서드 탈출 등의 시점을 출력)
+			DEBUG -개발코드의 흐름 파악시(변수값이 함수 호출과정 , for 문에서 i 출력시..)
+			INFO - 애플리케이션의 큰 흐름(서버시작/종료 )
+			WARN - 당장의 프로그램이 중단되는 것은 아니지만, 향후 시스템에 잠정적인 문제를 일으킬수 있는 경고성 메시지
+			ERROR - 애플리케이션의 치명적 오류 발생 메시지 출력 
+	-->
+	<logger name="com.hexagon.springmvc" level="DEBUG"/>
+	
+	<!-- Root 로그 레벨 설정 -->
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+	</root>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
