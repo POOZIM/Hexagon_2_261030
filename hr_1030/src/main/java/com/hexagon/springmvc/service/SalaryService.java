@@ -1,7 +1,7 @@
 package com.hexagon.springmvc.service;
 
 import java.util.List;
-
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import com.hexagon.springmvc.domain.Salary;
@@ -17,6 +17,7 @@ public class SalaryService {
     }
 
     // 급여 목록 조회
+    @PreAuthorize("hasRole('HR_ADMIN')")
     public List<Salary> getSalaryList() {
         return salaryMapper.selectAll();
     }
